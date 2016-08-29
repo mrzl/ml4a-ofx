@@ -1,0 +1,3 @@
+[submodule "apps/ImageTSNEViewer/src/ofxJSON"]
+	path = apps/ImageTSNEViewer/src/ofxJSON
+	url = https://github.com/jefftimesten/ofxJSON
