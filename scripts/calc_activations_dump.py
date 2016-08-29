@@ -102,11 +102,14 @@ def main(model, images_path, tsne_path, tsne_dimensions, tsne_perplexity):
     images = []
     for idx, image_path in enumerate(candidate_images):
         file_path = join(images_path, image_path)
-        image = get_image(file_path);
-        if image is not None:
-            print "getting activations for %s %d/%d" % (image_path, idx, len(candidate_images))
-            acts = model.predict(image)[0]
-            images.append((file_path, acts))
+        try:
+            image = get_image(file_path);
+            if image is not None:
+                print "getting activations for %s %d/%d" % (image_path, idx, len(candidate_images))
+                acts = model.predict(image)[0]
+                images.append((file_path, acts))
+        except:
+            print('Something happened with get_image()')
 
     data = []
     for path, vector in images:
