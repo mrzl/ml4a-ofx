@@ -94,7 +94,6 @@ def VGG_16(weights_path):
     return model
 
 
-
 def main(model, images_path, tsne_path, tsne_dimensions, tsne_perplexity):
     # get images
     candidate_images = [f for f in os.listdir(images_path) if isfile(join(images_path, f))]
@@ -112,11 +111,17 @@ def main(model, images_path, tsne_path, tsne_dimensions, tsne_perplexity):
             print('Something happened with get_image()')
 
     data = []
-    for path, vector in images:
-        print('trying to jsonify vector: ' + str(type(vector.tolist())))
-        data.append({'path': path, "vector": vector.tolist()})
+
     with open(tsne_path, 'w') as outfile:
-        json.dump(data, outfile)
+        outfile.write('[')
+        for path, vector in images:
+            print('trying to jsonify vector: ' + str(type(vector.tolist())))
+            entry = {'path': path, "vector": vector.tolist()}
+            #data.append(entry)
+            json.dump(entry, outfile)
+            #json.dump(data, outfile)
+
+        outfile.write(']')
 
 
 if __name__ == '__main__':
