@@ -11,7 +11,7 @@ from keras.layers import Convolution2D, ZeroPadding2D, MaxPooling2D
 from keras.optimizers import SGD
 import json
 from scipy.spatial import distance
-import sklearn.decomposition.PCA
+from sklearn.decomposition import PCA
 import operator
 
 
