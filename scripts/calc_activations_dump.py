@@ -98,21 +98,24 @@ def main(model, images_path, tsne_path, tsne_dimensions, tsne_perplexity):
     # get images
     candidate_images = [f for f in os.listdir(images_path) if isfile(join(images_path, f))]
     # analyze images and grab activations
-    images = []
-    for idx, image_path in enumerate(candidate_images):
-        file_path = join(images_path, image_path)
-        try:
-            image = get_image(file_path);
-            if image is not None:
-                print "getting activations for %s %d/%d" % (image_path, idx, len(candidate_images))
-                acts = model.predict(image)[0]
-                images.append((file_path, acts))
-        except:
-            print('Something happened with get_image()')
+    #images = []
+    with open(tsne_path, 'w') as outfile:
+        for idx, image_path in enumerate(candidate_images):
+            file_path = join(images_path, image_path)
+            try:
+                image = get_image(file_path);
+                if image is not None:
+                    print "getting activations for %s %d/%d" % (image_path, idx, len(candidate_images))
+                    acts = model.predict(image)[0]
+                    #images.append((file_path, acts))
+                    entry = {'path': file_path, "vector": acts.tolist()}
+                    json.dump(entry, outfile)
+            except:
+                print('Something happened with get_image()')
 
     data = []
 
-    with open(tsne_path, 'w') as outfile:
+
         outfile.write('[')
         for path, vector in images:
             print('trying to jsonify vector: ' + str(type(vector.tolist())))
