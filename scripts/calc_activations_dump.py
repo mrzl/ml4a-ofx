@@ -11,6 +11,7 @@ from keras.layers import Convolution2D, ZeroPadding2D, MaxPooling2D
 from keras.optimizers import SGD
 import json
 from scipy.spatial import distance
+from matplotlib.mlab import PCA
 import operator
 
 
@@ -98,9 +99,9 @@ def main(model, images_path, tsne_path, tsne_dimensions, tsne_perplexity):
     # get images
     candidate_images = [f for f in os.listdir(images_path) if isfile(join(images_path, f))]
     # analyze images and grab activations
-    #images = []
-    with open(tsne_path, 'w') as outfile:
+    with open(tsne_path+'.json', 'w') as outfile, open(tsne_path+'_pca.json') as outfile2:
         outfile.write('[')
+        outfile2.write('[')
         for idx, image_path in enumerate(candidate_images):
             file_path = join(images_path, image_path)
             try:
@@ -108,12 +109,18 @@ def main(model, images_path, tsne_path, tsne_dimensions, tsne_perplexity):
                 if image is not None:
                     print "getting activations for %s %d/%d" % (image_path, idx, len(candidate_images))
                     acts = model.predict(image)[0]
-                    #images.append((file_path, acts))
                     entry = {'path': file_path, "vector": acts.tolist()}
                     json.dump(entry, outfile)
+
+                    pca = PCA(n_components=300)
+                    pca.fit(acts)
+                    pca_activations = pca.transform(acts)
+                    pca_entry = {'path': file_path, "vector": pca_activations.tolist()}
+                    json.dump(pca_entry, outfile2)
             except:
                 print('Something happened with get_image()')
         outfile.write(']')
+        outfile2.write(']')
 
 
 if __name__ == '__main__':
