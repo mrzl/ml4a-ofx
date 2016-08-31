@@ -99,20 +99,20 @@ def main(model, images_path, tsne_path, tsne_dimensions, tsne_perplexity):
     # get images
     candidate_images = [f for f in os.listdir(images_path) if isfile(join(images_path, f))]
     # analyze images and grab activations
+    pca = PCA(n_components=300)
     with open(tsne_path+'.json', 'w') as outfile, open(tsne_path+'_pca.json', 'w') as outfile2:
         outfile.write('[')
         outfile2.write('[')
         for idx, image_path in enumerate(candidate_images):
             file_path = join(images_path, image_path)
             try:
-                image = get_image(file_path);
+                image = get_image(file_path)
                 if image is not None:
                     print "getting activations for %s %d/%d" % (image_path, idx, len(candidate_images))
                     acts = model.predict(image)[0]
                     entry = {'path': file_path, "vector": acts.tolist()}
                     json.dump(entry, outfile)
 
-                    pca = PCA(n_components=300)
                     pca_acts = acts.reshape((1, -1))
                     pca.fit(pca_acts)
                     pca_activations = pca.fit_transform(pca_acts)
