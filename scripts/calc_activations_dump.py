@@ -113,8 +113,9 @@ def main(model, images_path, tsne_path, tsne_dimensions, tsne_perplexity):
                     json.dump(entry, outfile)
 
                     pca = PCA(n_components=300)
-                    pca.fit(acts)
-                    pca_activations = pca.transform(acts.reshape(-1, 1))
+                    pca_acts = acts.reshape((-1, 1))
+                    pca.fit(pca_acts)
+                    pca_activations = pca.transform(pca_acts)
                     pca_entry = {'path': file_path, "vector": pca_activations.tolist()}
                     json.dump(pca_entry, outfile2)
             except:
