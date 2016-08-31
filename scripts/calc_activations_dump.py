@@ -116,7 +116,7 @@ def main(model, images_path, tsne_path, tsne_dimensions, tsne_perplexity):
                 pca_acts = acts.reshape((1, -1))
                 print(pca_acts)
                 pca.fit(pca_acts)
-                pca_activations = pca.transform(pca_acts)
+                pca_activations = pca.fit_transform(pca_acts)
                 print('done: ' + str(pca_activations))
                 pca_entry = {'path': file_path, "vector": pca_activations.tolist()}
                 json.dump(pca_entry, outfile2)
