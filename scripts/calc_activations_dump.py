@@ -104,21 +104,21 @@ def main(model, images_path, tsne_path, tsne_dimensions, tsne_perplexity):
         outfile2.write('[')
         for idx, image_path in enumerate(candidate_images):
             file_path = join(images_path, image_path)
-            try:
-                image = get_image(file_path);
-                if image is not None:
-                    print "getting activations for %s %d/%d" % (image_path, idx, len(candidate_images))
-                    acts = model.predict(image)[0]
-                    entry = {'path': file_path, "vector": acts.tolist()}
-                    json.dump(entry, outfile)
+            #try:
+            image = get_image(file_path);
+            if image is not None:
+                print "getting activations for %s %d/%d" % (image_path, idx, len(candidate_images))
+                acts = model.predict(image)[0]
+                entry = {'path': file_path, "vector": acts.tolist()}
+                json.dump(entry, outfile)
 
-                    pca = PCA(n_components=300)
-                    pca.fit(acts)
-                    pca_activations = pca.transform(acts)
-                    pca_entry = {'path': file_path, "vector": pca_activations.tolist()}
-                    json.dump(pca_entry, outfile2)
-            except:
-                print('Something happened with get_image()')
+                pca = PCA(n_components=300)
+                pca.fit(acts)
+                pca_activations = pca.transform(acts)
+                pca_entry = {'path': file_path, "vector": pca_activations.tolist()}
+                json.dump(pca_entry, outfile2)
+            #except:
+            #    print('Something happened with get_image()')
         outfile.write(']')
         outfile2.write(']')
 
