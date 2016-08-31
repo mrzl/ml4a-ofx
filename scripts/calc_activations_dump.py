@@ -113,19 +113,6 @@ def main(model, images_path, tsne_path, tsne_dimensions, tsne_perplexity):
             except:
                 print('Something happened with get_image()')
 
-    data = []
-
-
-        outfile.write('[')
-        for path, vector in images:
-            print('trying to jsonify vector: ' + str(type(vector.tolist())))
-            entry = {'path': path, "vector": vector.tolist()}
-            #data.append(entry)
-            json.dump(entry, outfile)
-            #json.dump(data, outfile)
-
-        outfile.write(']')
-
 
 if __name__ == '__main__':
     params = process_arguments(sys.argv[1:])
