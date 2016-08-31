@@ -99,7 +99,7 @@ def main(model, images_path, tsne_path, tsne_dimensions, tsne_perplexity):
     # get images
     candidate_images = [f for f in os.listdir(images_path) if isfile(join(images_path, f))]
     # analyze images and grab activations
-    with open(tsne_path+'.json', 'w') as outfile, open(tsne_path+'_pca.json') as outfile2:
+    with open(tsne_path+'.json', 'w') as outfile, open(tsne_path+'_pca.json', 'w') as outfile2:
         outfile.write('[')
         outfile2.write('[')
         for idx, image_path in enumerate(candidate_images):
