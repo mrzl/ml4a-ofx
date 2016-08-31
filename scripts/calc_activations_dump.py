@@ -100,6 +100,7 @@ def main(model, images_path, tsne_path, tsne_dimensions, tsne_perplexity):
     # analyze images and grab activations
     #images = []
     with open(tsne_path, 'w') as outfile:
+        outfile.write('[')
         for idx, image_path in enumerate(candidate_images):
             file_path = join(images_path, image_path)
             try:
@@ -112,6 +113,7 @@ def main(model, images_path, tsne_path, tsne_dimensions, tsne_perplexity):
                     json.dump(entry, outfile)
             except:
                 print('Something happened with get_image()')
+        outfile.write(']')
 
 
 if __name__ == '__main__':
